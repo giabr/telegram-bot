@@ -1,0 +1,5 @@
+name = "my-worker"
+type = "javascript"  # or "module" if you're using ESM (like above)
+account_id = "1d87d74737375e1b4730c5cdeb33b828"
+workers_dev = true
+compatibility_date = "2025-08-01"
