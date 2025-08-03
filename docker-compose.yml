@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n
+    environment:
+      - GENERIC_TIMEZONE=Asia/Jakarta
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=admin
+      - "5678:5678"
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+    restart: always
+    networks:
+      n8n-net: {}
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    depends_on:
+      - n8n
+    command: tunnel --url http://n8n:5678 --no-autoupdate
+    networks:
+      n8n-net: {}
+
+networks:
+  n8n-net:
+    driver: bridge
